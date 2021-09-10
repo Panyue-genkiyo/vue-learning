@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 数据绑定</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <label>
+            单项数据绑定:
+            <input type='text' v-bind:value="name"/>
+        </label>
+        <label>
+            双向数据绑定:
+            <input type='text' v-model:value="name"/>
+        </label>
+        <br/>
+         <!--
+         不是什么都可用v-model的 这里v-model不支持h1
+         v-model只能应用在表单元素上(输入元素)，与用户交互
+         -->
+        <h1 v-bind:x="name">
+            你好啊
+        </h1>
+    </div>
+    <script type="text/javascript">
+        //v-bind可以完成数据绑定(单项绑定)
+        //v-model双向数据绑定
+        //单项数据绑定 双向数据绑定
+        Vue.config.productionTip = false;
+        new Vue({
+            el: '#root',
+            data:{
+                name: 'shanghai'
+            }
+        })
+    </script>
+</body>
+</html>
