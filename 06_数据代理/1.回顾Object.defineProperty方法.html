@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Object.defineProperty</title>
+</head>
+<body>
+   <script type="text/javascript">
+       let number = 18;
+       let person = {
+           name: '张三',
+           sex:'男'
+       }
+
+       //此时age是不可以枚举的
+       //往person对象里添加属性
+       //关联
+       Object.defineProperty(person,'age', {
+           // value: 18,
+           // enumerable: true, //此时代表这个属性是可以枚举的
+           // writable: true, //代表可以重写该属性(控制属性是否被修改)
+           // configurable:true, //控制属性是否可以被删除 默认为false
+
+
+           //当读取person的age属性时get属性就会被调用，且返回值就是age的值
+           //invoke property proxy映射数据代理
+           get: function () {
+               //测试它的调用情况
+               console.log('@@@ GET AGE');
+               //此时age的值依赖number的值
+               return number
+           },
+           //当修改person的age属性时set(setter)属性就会被调用，且会收到修改的具体值
+           set(v) {
+               //测试
+               console.log('CHANGE AGE');
+               number=v;
+           }
+       });
+
+       // console.log(Object.keys(person))
+
+       //遍历
+       // for(var p  in  person){
+       //     console.log('@@', person[p])
+       // }
+
+
+
+       console.log(person);
+   </script>
+</body>
+</html>
