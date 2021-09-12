@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 键盘事件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+     <!--
+            1.Vue中常用的按键别名：
+                        回车 => enter
+                        删除 => delete (捕获“删除”和“退格”键)
+                        退出 => esc
+                        空格 => space
+                        换行 => tab (特殊，必须配合keydown去使用)
+                        上 => up
+                        下 => down
+                        左 => left
+                        右 => right
+
+            2.Vue未提供别名的按键，可以使用按键原始的key值去绑定，但注意要转为kebab-case（短横线命名）
+
+            3.系统修饰键（用法特殊）：ctrl、alt、shift、meta
+                        (1).配合keyup使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才被触发。
+                        (2).配合keydown使用：正常触发事件。
+
+            4.也可以使用keyCode去指定具体的按键（不推荐）
+
+            5.Vue.config.keyCodes.自定义键名 = 键码，可以去定制按键别名
+    -->
+  <div id="root">
+        <!--vue中键盘事件的绑定 一般用keyUp(keydown)-->
+        <h1>欢迎来到{{ name }}</h1>
+        <input type="text" @keyup.enter="showInfo" placeholder="按下回车提示输入"/>
+        <input type="text" @keyup.delete="showInfo" placeholder="退格或删除提示输入"/>
+        <input type="text" @keyup.esc="showInfo" placeholder="按下esc提示输入"/>
+        <input type="text" @keydown.tab="showInfo" placeholder="按下tab示输入"/>
+       <input type="text" @keyup.ctrl="showInfo" placeholder="按下command示输入"/>
+      <input type="text" @keydown.p="showInfo" placeholder="按下p示输入"/>
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el:'#root',
+            data:{
+                name: 'shanghai'
+            },
+            methods:{
+                showInfo:function (e){
+                    // if(e.keyCode === 13) {
+                    //     console.log(e.target.value);
+                    // }
+                    console.log(e.target.value);
+                    console.log(e.key); //按下的名字
+                }
+            }
+        })
+    </script>
+</body>
+</html>
