@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修饰符</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        *{
+            margin: 20px;
+        }
+        .demo1{
+            height: 100px;
+            background: deepskyblue;
+        }
+        .box1{
+            padding: 5px;
+            background: deepskyblue;
+        }
+        .box2 {
+            padding: 5px;
+            background: orange;
+        }
+        .list{
+            width:200px;
+            height: 200px;
+            background: salmon;
+            overflow: auto;
+        }
+        .list li{
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+         <!--
+				Vue中的事件修饰符：
+						1.prevent：阻止默认事件（常用）；
+						2.stop：阻止事件冒泡（常用）；
+						3.once：事件只触发一次（常用）；
+						4.capture：使用事件的捕获模式；
+						5.self：只有event.target是当前操作的元素时才触发事件；
+						6.passive：事件的默认行为立即执行，无需等待事件回调执行完毕；
+		-->
+   <div id="root">
+       <h1>欢迎来到 {{ name }}</h1>
+       <!--阻止默认事件（常用-->
+       <a href="https://www.baidu.com" @click.prevent="showInfo" >点我提示信息</a>
+       <!--阻止事件冒泡（常用）-->
+       <div class="demo1" @click="showInfo">
+           <button @click.stop="showInfo">点我提示信息</button>
+       </div>
+       <!--事件只触发一次-->
+       <button @click.once="showInfo">点我提示信息,只在第一次点击生效</button>
+       <!-- capture事件的捕获模式 让事件以捕获的方式来处理(先捕获再冒泡)-->
+       <div class="box1" @click.capture="showMsg(1)">
+           div1
+           <div class="box2" @click="showMsg(2)">div2</div>
+       </div>
+       <!-- self 只有event.target是当前操作的元素时才触发事件(变相阻止冒泡)-->
+       <div class="demo1" @click.self="showInfo">
+           <button @click="showInfo">点我提示信息</button>
+       </div>
+       <!--passive：事件的默认行为立即执行，无需等待事件回调执行完毕；-->
+       <!--scroll滚动条一滚动就会触发的事件 wheel鼠标滚轮事件-->
+       <ul class="list" @scroll.passive="demo">
+           <li>1</li>
+           <li>2</li>
+           <li>3</li>
+           <li>4</li>
+       </ul>
+   </div>
+   <script type='text/javascript'>
+       Vue.config.productionTip = false;
+       new Vue({
+           el: "#root",
+           data(){
+               return {
+                   name: 'Shanghai'
+               }
+           },
+           methods:{
+               showInfo(e){
+                   // e.preventDefault(); 阻止a标签默认行为
+                   // e.stopPropagation() //阻止事件冒泡
+                   // alert('你好');
+                   console.log(e.target);
+               },
+               showMsg(msg){
+                   console.log(msg);
+               },
+               demo(){
+                   // console.log(`@`)
+                   // for(let i = 0; i < 100000; i++){
+                   //     console.log('#')
+                   // }
+                   // console.log('累了')
+               }
+           }
+       });
+   </script>
+</body>
+</html>
