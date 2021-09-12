@@ -38,8 +38,10 @@
         <input type="text" @keyup.delete="showInfo" placeholder="退格或删除提示输入"/>
         <input type="text" @keyup.esc="showInfo" placeholder="按下esc提示输入"/>
         <input type="text" @keydown.tab="showInfo" placeholder="按下tab示输入"/>
-       <input type="text" @keyup.ctrl="showInfo" placeholder="按下command示输入"/>
-      <input type="text" @keydown.p="showInfo" placeholder="按下p示输入"/>
+        <input type="text" @keyup.ctrl="showInfo" placeholder="按下command提示输入"/>
+        <input type="text" @keydown.p="showInfo" placeholder="按下p提示输入"/>
+        <!--键盘事件的修饰符也可以连用-->
+       <input type="text" @keydown.command.g="showInfo" placeholder="按下command和g提示输入"/>
     </div>
     <script type="text/javascript">
         new Vue({
