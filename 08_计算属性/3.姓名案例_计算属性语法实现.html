@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue计算属性语法实现</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!--
+			计算属性：
+					1.定义：要用的属性不存在，要通过已有属性计算得来。
+					2.原理：底层借助了Objcet.defineproperty方法提供的getter和setter。
+					3.get函数什么时候执行？
+								(1).初次读取时会执行一次。
+								(2).当依赖的数据发生改变时会被再次调用。
+					4.优势：与methods实现相比，内部有缓存机制（复用），效率更高，调试方便。
+					5.备注：
+							1.计算属性最终会出现在vm上，直接读取使用即可。
+							2.如果计算属性要被修改，那必须写set函数去响应修改，且set中要引起计算时依赖的数据发生改变。
+		 -->
+    <!--v-model双向绑定-->
+    姓:<input type="text" v-model="firstName"/>
+    <br/><br/>
+    名:<input type="text" v-model="lastName"/>
+    <br/><br/>
+    测试:<input type="text" v-model="test"/>
+    <br/><br/>
+    全名: <span>{{ fullName }}</span>
+</div>
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            //data里的都是属性
+            firstName: '张',
+            lastName: '三',
+            test:'test'
+        },
+        //计算属性--> 旧属性加工
+        computed: {
+            fullName: {
+                //get的作用，当读取fullName时get就会被调用，且返回值就做为fullName的值
+                //defineProperty
+                //注意vm._data是不存在计算属性的
+                //计算属性算完之后直接丢到了viewModel实例对象身上
+                /**
+                 * get的调用时机
+                 * 1.初次读取计算属性时
+                 * 2.所依赖的数据(data中的属性)发生变化时，不改变的话直接读缓存
+                 * 3.methods没有缓存，读几次就调用几次无论要用的数据是否发生变化
+                 *  @returns {string}
+                 */
+                get(){
+                    //此时get函数中的this指向是vm
+                    console.log('get调用了', this);
+                    return this.firstName + '--' + this.lastName
+                },
+                /**
+                 * set什么时候调用
+                 *   1.当fullName被修改时
+                 * @param value
+                 */
+                set(value){
+                    //修改计算属性所依赖的普通属性(放在data里面的)
+                    //this === vm
+                    const [ firstName, lastName ] = value.split('-');
+                    this.firstName = firstName;
+                    this.lastName = lastName; //依赖属性发生改变之后,计算属性自动改变
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
