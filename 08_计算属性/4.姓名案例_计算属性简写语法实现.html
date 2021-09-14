@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue计算属性语法实现</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!--v-model双向绑定-->
+    姓:<input type="text" v-model="firstName"/>
+    <br/><br/>
+    名:<input type="text" v-model="lastName"/>
+    <br/><br/>
+    测试:<input type="text" v-model="test"/>
+    <br/><br/>
+    全名: <span>{{ fullName }}</span>
+</div>
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            //data里的都是属性
+            firstName: '张',
+            lastName: '三',
+            test:'test'
+        },
+        //计算属性--> 旧属性加工
+        computed: {
+            //简写形式
+            //前提:计算属性只考虑读取不考虑修改 set丢了
+            //简写计算书写为一个函数(这个函数当成getter使用), 注意不要写箭头函数
+            //执行完getter之后，vm直接保存返回的数据为fullName属性的属性值,此时vm.fullName不是函数而是一个确切的计算值
+            fullName: function (){
+                return this.firstName + '--' + this.lastName;
+            }
+     }});
+</script>
+</body>
+</html>
