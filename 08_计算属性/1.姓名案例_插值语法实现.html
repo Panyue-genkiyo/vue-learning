@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插值语法</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--v-model双向绑定-->
+        姓:<input type="text" v-model="firstName"/>
+        <br/><br/>
+        名:<input type="text" v-model="lastName"/>
+        <br/><br/>
+        全名: <span>{{ firstName.slice(0,3) }} - {{ lastName }}</span>
+    </div>
+    <script type="text/javascript">
+        new Vue({
+           el:'#root',
+           data:{
+               firstName:'张',
+               lastName: '三'
+           }
+        });
+    </script>
+</body>
+</html>
