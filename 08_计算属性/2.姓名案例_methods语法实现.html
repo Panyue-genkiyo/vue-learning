@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>methods语法实现</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--v-model双向绑定-->
+        姓:<input type="text" v-model="firstName"/>
+        <br/><br/>
+        名:<input type="text" v-model="lastName"/>
+        <br/><br/>
+        <!--methods方法调用之后进行插值-->
+        <!--data中的数据发生变化的话，要重新解析和react类似，state一变化页面重新render-->
+        全名: <span>{{ fullName() }}</span>
+    </div>
+    <script type="text/javascript">
+        new Vue({
+           el:'#root',
+           data: {
+               firstName: '张',
+               lastName: '三'
+           },
+           methods:{
+               fullName(){
+                   return `${this.firstName.slice(0,3)} -- ${this.lastName}`
+               }
+           }
+        });
+    </script>
+</body>
+</html>
