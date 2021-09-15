@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插值语法</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h1>今天天气很 {{ info }}</h1>
+    <!--点击函数里面可以书写较为简单的语句-->
+    <!--@xxx='yyyy' yyyy可以是一些简单的语句-->
+<!--    <button @click="isHot = !isHot">-->
+<!--        切换-->
+<!--    </button>-->
+    <button @click="changeWeather">
+        切换
+    </button>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    new Vue({
+        el:'#root',
+        data:{
+            isHot: true
+        },
+        //计算属性
+        computed: {
+            info(){
+                return this.isHot ? '炎热' : '凉爽';
+            }
+        },
+        //改变模版数据的方法
+        methods:{
+            changeWeather(){
+                this.isHot = !this.isHot;
+            }
+        }
+    })</script>
+</body>
+</html>
