@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>天气案例_深度监视简写形式</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h1>今天天气很 {{ info }}</h1>
+    <button @click="changeWeather">
+        切换
+    </button>
+    <hr/>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            isHot: true,
+        },
+        //计算属性
+        computed: {
+            info(){
+                return this.isHot ? '炎热' : '凉爽';
+            }
+        },
+        //改变模版数据的方法
+        methods:{
+            changeWeather(){
+                this.isHot = !this.isHot;
+            }
+        },
+        // watch:{
+        //     //监视的配置对象
+        //     //watch不仅能监视data的普通属性，也可以检测计算属性
+        //     // isHot:{
+        //     //     //immediate: true, //当这个属性为true时，页面刚渲染就运行handler函数
+        //     //     //handler 什么时候调用呢
+        //     //     //当isHot发生改变就会调用该函数
+        //     //     //handler接收两个参数，一个是这个状态参数改变前的值，另一个是改变后的旧值
+        //     //     //deep: true  //简写
+        //     //     handler(newValue, preValue){
+        //     //         console.log('ishot 被修改了');
+        //     //         console.log(`newValue: ${newValue}, preValue: ${preValue}`);
+        //     //     }
+        //     // }
+        //     //简写:
+        //     //简写的前提watch的属性不需要immediate和deep属性的时候
+        //     // isHot(newValue, preValue){
+        //     //     console.log(newValue,preValue);
+        //     // }
+        // }
+    });
+    //完整写法
+    // vm.$watch('isHot', {
+    //     deep: true,
+    //     immediate: true,
+    //     handler(newValue, preValue){
+    //         console.log(newValue, preValue);
+    //     }
+    // });
+    //简写 (代价就是不能配置其他配置项deep immediate)
+    vm.$watch('isHot', function (newValue, preValue){
+        //this === vm
+        console.log(newValue, preValue);
+    })
+</script>
+</body>
+</html>
