@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>天气案例_深度监视</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!--
+		深度监视：
+				(1).Vue中的watch默认不监测对象内部值的改变（一层）。
+				(2).配置deep:true可以监测对象内部值改变（多层）。
+		备注：
+				(1).Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以(想让它可以则配置deep:true)！
+				(2).使用watch时根据数据的具体结构，决定是否采用深度监视。
+	-->
+    <h1>今天天气很 {{ info }}</h1>
+    <button @click="changeWeather">
+        切换
+    </button>
+    <hr/>
+    <h3>a的值是:{{ numbers.a }}</h3>
+    <button @click="numbers.a++">
+        点我让a加一
+    </button>
+    <h3>b的值是:{{ numbers.b }}</h3>
+    <button @click="numbers.b++">
+        点我让b加一
+    </button>
+    <h1>
+        测试vue自身监测数据属性
+        {{ numbers.d.e }}
+    </h1>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            isHot: true,
+            numbers:{
+                a:1,
+                b:1,
+                d:{
+                    e:2
+                }
+            }
+        },
+        //计算属性
+        computed: {
+            info(){
+                return this.isHot ? '炎热' : '凉爽';
+            }
+        },
+        //改变模版数据的方法
+        methods:{
+            changeWeather(){
+                this.isHot = !this.isHot;
+            }
+        },
+        watch:{
+            //监视的配置对象
+            //watch不仅能监视data的普通属性，也可以检测计算属性
+            isHot:{
+                //immediate: true, //当这个属性为true时，页面刚渲染就运行handler函数
+                //handler 什么时候调用呢
+                //当isHot发生改变就会调用该函数
+                //handler接收两个参数，一个是这个状态参数改变前的值，另一个是改变后的旧值
+                handler(newValue, preValue){
+                    console.log('ishot 被修改了');
+                    console.log(`newValue: ${newValue}, preValue: ${preValue}`);
+                }
+            },
+            //监测多级结构里面的属性 深度监视
+            // 'numbers.a':{
+            //     handler(){
+            //       console.log('a发生改变了')
+            //     }
+            // }
+            //深度监视numbers中的所有属性
+            numbers:{
+                deep: true, //监视多级结构的属性
+                handler(){
+                    console.log('numbers 发生改变')
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
