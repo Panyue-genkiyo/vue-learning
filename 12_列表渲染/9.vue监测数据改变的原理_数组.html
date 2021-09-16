@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <!--
+       通过包裹数组更新元素的方法实现，本质就是做了两件事：
+			    (1).调用原生对应的方法对数组进行更新。
+				(2).重新解析模板，进而更新页面。
+	   在Vue修改数组中的某个元素一定要用如下方法：
+			   1.使用这些API:push()、pop()、shift()、unshift()、splice()、sort()、reverse()
+			   2.Vue.set() 或 vm.$set()
+    -->
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
