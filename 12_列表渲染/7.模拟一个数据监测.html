@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模拟数据监测</title>
+</head>
+<body>
+<script type="text/javascript">
+    let data = {
+        name: "武汉科技大学",
+        address: '武汉'
+    }
+    //无限递归 调用栈炸了 内存溢出
+    //错误写法
+    // Object.defineProperty(data, 'name', {
+    //     get(){
+    //         return data.name
+    //     },
+    //     set(val){
+    //         data.name = val;
+    //     }
+    // })
+
+    //创建一个监视实例对象
+    const obs = new Observer(data);
+
+    //准备一个vm实例
+    let vm = { };
+
+    vm._data = data = obs;
+
+    //观察者
+    function Observer(obj){
+        //缺陷：未实现递归(对象嵌套对象就会出现问题)
+        const keys = Object.keys(obj);
+        //遍历对象当中所有的key
+        keys.forEach(key => {
+            Object.defineProperty(this, key, {
+                get(){
+                    return obj[key]
+                },
+                set(v) {
+                  console.log(`${key}的值改变了,变为${v}`);
+                  obj[key] = v;
+                }
+            })
+        });
+    }
+
+
+
+</script>
+</body>
+</html>
