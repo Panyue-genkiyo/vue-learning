@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue监测数据改变的原理</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h2>学校名称:{{ name }}</h2>
+    <h2>学校地址:{{ address }}</h2>
+</div>
+<script type="text/javascript">
+    const vm = new Vue({
+         el: '#root',
+         data:{
+             name: '武汉科技大学',
+             address: '武汉',
+             stu:{
+                 name: 'tom',
+                 age:{
+                     rage: 12,
+                     sage: 29
+                 },
+                 friends: [
+                     { name: 'test', age: 18, sex: 'male' }
+                 ]
+             }
+         }
+     })
+</script>
+</body>
+</html>
