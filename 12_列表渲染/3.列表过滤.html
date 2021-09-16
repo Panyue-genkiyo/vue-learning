@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表过滤</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h2>人员列表</h2>
+    <!--v-model双向绑定-->
+    <input type="text" placeholder="请输入名字" v-model="keyword"/>
+    <ul v-for="p in filPersons" :key="p.id">
+        <li>{{p.name}}-{{ p.age }}- {{ p.sex }}</li>
+    </ul>
+</div>
+<script type="text/javascript">
+    //用监视属性书写功能
+    // new Vue({
+    //     el:'#root',
+    //     data: {
+    //         keyword : '',
+    //         persons: [
+    //             {id: "001", name:'周冬雨', age:20, sex:'女'},
+    //             {id: "002", name:'马冬梅', age:19, sex:'女'},
+    //             {id: "003", name:'周杰伦', age:21, sex:'男'},
+    //             {id: "004", name:'温兆伦', age:22, sex: '男'},
+    //         ],
+    //         filPersons: []
+    //     },
+    //     //watch监听用户输入项keyword的变化
+    //     watch:{
+    //         keyword: {
+    //            immediate: true, //上来就进行监视获得到的newV是''
+    //            handler(newV){
+    //                // console.log(newV)
+    //                //不要修改元数据，这样只会越写越少
+    //                //注意一个某个字符串.indexOf('')是0而不是-1(都包含空字符串)
+    //                this.filPersons = this.persons.filter(p => p.name.indexOf(newV) !== -1);
+    //            }
+    //         }
+    //     }
+    // })
+    //用计算属性书写功能
+
+    //当computed和watch都可以实现基本功能时优先考虑computed (重要)
+    new Vue({
+        el:'#root',
+        data: {
+            keyword : '',
+            persons: [
+                {id: "001", name:'周冬雨', age:20, sex:'女'},
+                {id: "002", name:'马冬梅', age:19, sex:'女'},
+                {id: "003", name:'周杰伦', age:21, sex:'男'},
+                {id: "004", name:'温兆伦', age:22, sex: '男'},
+            ],
+        },
+        computed:{
+            filPersons(){
+                return this.persons.filter(p => p.name.indexOf(this.keyword) !== -1);
+            }
+        }
+    })
+</script>
+</body>
+</html>
