@@ -33,7 +33,8 @@
                 // this.persons[1].name = '马老师';  //奏效
                 // this.persons[1].age = 50;      //奏效
                 // this.persons[1].sex = '男'; //奏效
-                this.persons[1] = { id: '002', name: '马老师', age: 50, sex:'男' }; //这样修改vue是无法监测数据的变化的
+                // this.persons[1] = { id: '002', name: '马老师', age: 50, sex:'男' }; //这样修改vue是无法监测数据的
+                this.persons.splice(1,1,{ id: '002', name: '马老师', age: 50, sex:'男' });
             }
 
         }
