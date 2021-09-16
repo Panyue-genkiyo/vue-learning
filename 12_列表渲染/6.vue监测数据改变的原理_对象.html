@@ -9,6 +9,14 @@
     <script src="../js/vue.js"></script>
 </head>
 <body>
+<!--
+  2. 如何监测对象中的数据？
+		 通过setter实现监视，且要在new Vue时就传入要监测的数据。
+		 		(1).对象中后追加的属性，Vue默认不做响应式处理
+				(2).如需给后添加的属性做响应式，请使用如下API：
+							Vue.set(target，propertyName/index，value) 或
+						    vm.$set(target，propertyName/index，value)
+-->
 <div id="root">
     <h2>学校名称:{{ name }}</h2>
     <h2>学校地址:{{ address }}</h2>
