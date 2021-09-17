@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+   需求1：定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍。
+   需求2：定义一个v-fbind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。
+   自定义指令总结：
+			一、定义语法：
+						(1).局部指令：
+							new Vue({directives:{指令名:配置对象} })   或  new Vue({directives: {指令名:回调函数}})
+						(2).全局指令：
+							Vue.directive(指令名,配置对象) 或  Vue.directive(指令名,回调函数)
+
+			二、配置对象中常用的3个回调：
+						(1).bind：指令与元素成功绑定时调用。
+						(2).inserted：指令所在元素被插入页面时调用。
+						(3).update：指令所在模板结构被重新解析时调用。
+
+			三、备注：
+				         1.指令定义时不加v-，但使用时要加v-；
+						 2.指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名。
+-->
+<!--
+  下面的这是模版，要经过vue的解析才能放到页面中，dom树里
+-->
+<div id="root">
+    <h2>当前的n值是：<span v-text="n"></span></h2>
+<!--    <h2>放大10倍后的n值是: <span v-big-number="n"></span></h2>-->
+    <h2>放大10倍后的n值是: <span v-big="n"></span></h2>
+    <button @click="n++">点我n+1</button>
+    <p>测试指令函数所调用的时机: {{ name }} </p>
+    <hr/>
+    <input type="text" v-fbind:value="n"/>
+</div>
+<div id="root2">
+    <input type="text" v-fbind:value="x"/>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    //此时自定义fbind指令使全局指令了，其他vue实例所管理的容器也可以使用
+    //全局指令
+    Vue.directive('fbind', {
+        bind(el, binding){
+            // console.log('bind')
+            el.value = binding.value;
+        },
+        //指令被插入页面时
+        inserted(el, binding){
+            // console.log('inserted')
+            el.focus();
+        },
+        //指令所在模版被重新解析时
+        update(el, binding){
+            // console.log('update');
+            el.value = binding.value;
+        }
+    })
+    const vm = new Vue({
+        el:"#root",
+        data:{
+            name: '上海',
+            n:1
+        },
+        //定义指令的配置项: directives
+        directives:{
+            /**
+             big函数的调用时机:
+                    1.指令与元素成功绑定(但注意此时dom元素还没有成功的被弄到页面上去)时会被调用 (首次,类似于dom元素一加载)
+                    2.指令所在的模版被重新解析时会被再次调用
+            **/
+            //两种写法:1.对象(key-value) 2.函数
+            // 'big-number'(el,binding){
+            //     console.log('big被调用啦！')
+            //     //收到两个参数，第一个参数代表真实dom元素，第二个参数是绑定对象，关注该绑定对象中的value属性
+            //     // console.log(el,binding);
+            //     //原生dom的操作
+            //     el.innerText = binding.value * 10;
+            // },
+            big(el,binding){
+                console.log(this); //注意此处this===window vue实例对象此时'不管'你写在指令里面的函数了
+                console.log('big被调用啦！')
+                //收到两个参数，第一个参数代表真实dom元素，第二个参数是绑定对象，关注该绑定对象中的value属性
+                // console.log(el,binding);
+                //原生dom的操作
+                el.innerText = binding.value * 10;
+            },
+            //自定义fbind绑定
+            //换成对象写法 对比函数简写方式其实只是多了 inserted钩子
+            // fbind:{
+            //     //指令与元素成功绑定
+            //     // bind(el, binding){
+            //     //     // console.log('bind')
+            //     //     el.value = binding.value;
+            //     // },
+            //     // //指令被插入页面时
+            //     // inserted(el, binding){
+            //     //     // console.log('inserted')
+            //     //     el.focus();
+            //     // },
+            //     // //指令所在模版被重新解析时
+            //     // update(el, binding){
+            //     //     // console.log('update');
+            //     //     el.value = binding.value;
+            //     // }
+            // }
+        }
+    });
+
+    const vm2 = new Vue({
+        el:'#root2',
+        data:{
+            x: 1,
+        }
+    })
+</script>
+</body>
+</html>
