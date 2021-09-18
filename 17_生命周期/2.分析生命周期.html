@@ -20,6 +20,7 @@
         //template模版字符串只能有一个根结点
         // template:'<div><h1>当前的n值是{{ n }}</h1>\n' +
         //     '<button @click="add">点我+1</button></div>',
+        //注意template是不能作为根标签来使用的，不能去骗vue，可以用fragment(vue3新加，模仿react)
         data: {
             n: 1
         },
@@ -46,6 +47,14 @@
             console.log(this);
             // document.querySelector('h1').innerText = 'hahah';
         },
+        beforeUpdate(){
+            console.log('beforeUpdate');
+            //console.log(this.n); //此时数据是新的，页面还是旧的，vue还没根据新的数据去生成新的虚拟dom，去比较旧的虚拟dom
+        },
+        updated(){
+            console.log('updated');
+            console.log(this.n); //此时数据是新的，页面也是新的，同步
+        }
     });
 
 </script>
