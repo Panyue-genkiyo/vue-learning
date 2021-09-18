@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>分析vue中生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root" :x="n">
+    <h1>当前的n值是{{ n }}</h1>
+    <button @click="add">点我+1</button>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    new Vue({
+        el:"#root",
+        //template模版字符串只能有一个根结点
+        // template:'<div><h1>当前的n值是{{ n }}</h1>\n' +
+        //     '<button @click="add">点我+1</button></div>',
+        data: {
+            n: 1
+        },
+        methods:{
+            add(){
+                this.n++;
+            }
+        },
+        beforeCreate(){
+            console.log('beforeCreate');
+            // console.log(this);
+
+        },
+        created(){
+            console.log('created');
+            // console.log(this);
+        },
+        beforeMount(){
+            console.log('beforeMount');
+            // console.log(this);
+        },
+        mounted(){
+            console.log('mounted');
+            console.log(this);
+            // document.querySelector('h1').innerText = 'hahah';
+        },
+    });
+
+</script>
+</body>
+</html>
