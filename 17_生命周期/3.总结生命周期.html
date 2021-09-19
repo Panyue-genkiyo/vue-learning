@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生命周期函数(钩子)总结</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!--
+			常用的生命周期钩子：
+				1.mounted: 发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】。
+				2.beforeDestroy: 清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】。
+
+			关于销毁Vue实例
+				1.销毁后借助Vue开发者工具看不到任何信息。
+				2.销毁后自定义事件会失效，但原生DOM事件依然有效。(click之类的原生事件依然会被调用)
+			    3.一般不会在beforeDestroy操作数据，因为即便操作数据，也不会再触发更新流程了。
+	-->
+    <!--v-bind绑定-->
+    <h1 :style="{opacity}">欢迎学习vue</h1>
+    <button @click="stop">停止变换</button>
+    <button @click="opacity = 1">透明度设置为1</button>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    const vm = new Vue({
+        el:"#root",
+        data:{
+            opacity: 1,
+        },
+        methods:{
+            stop() {
+                //只是清除了定时器，响应式仍然存在
+                // clearInterval(this.timer);
+                //暴力杀
+                this.$destroy();
+            }
+        },
+
+        //mounted
+        //vue完成模版的解析并把初始的真实的dom元素挂载完毕就调用mounted函数
+        //只调用一次
+        mounted(){
+            //关键性时刻调用对应的函数 生命周期
+            console.log('mounted');
+            this.timer = setInterval(() => {
+                console.log('inter')
+                //剪头函数没有this会从外部作用域寻找 mounted是由vue管理的函数，所以该函数中的this是vm(vue实例对象)
+                this.opacity -= 0.01;
+                if(this.opacity <= 0) this.opacity = 1;
+            },16);
+        },
+
+        beforeDestroy() {
+            console.log('vm要没了')
+            clearInterval(this.timer);
+        }
+    });
+
+</script>
+</body>
+</html>
