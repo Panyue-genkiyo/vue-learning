@@ -11,7 +11,9 @@
 <body>
 <div id="root" :x="n">
     <h1>当前的n值是{{ n }}</h1>
+    <h1 v-text="n"></h1>
     <button @click="add">点我+1</button>
+    <button @click="bye">点我销毁vm</button>
 </div>
 <script type="text/javascript">
     Vue.config.productionTip = false;
@@ -26,7 +28,18 @@
         },
         methods:{
             add(){
+                console.log('add')
                 this.n++;
+            },
+            bye(){
+                //实例销毁后调用。该钩子被调用后，对应 Vue 实例的所有指令都被解绑，所有的(自定义)事件监听器被移除，所有的子实例也都被销毁。
+                console.log('bye');
+                this.$destroy();
+            }
+        },
+        watch:{
+            n(){
+                console.log('n变了');
             }
         },
         beforeCreate(){
@@ -54,8 +67,19 @@
         updated(){
             console.log('updated');
             console.log(this.n); //此时数据是新的，页面也是新的，同步
+        },
+        beforeDestroy(){
+            //仍然可以使用data,methods，关闭定时器，取消订阅消息，解绑自定义事件等收尾工作，移除watchers
+            console.log('beforeDestroy');
+            console.log(this.n);
+            // this.add(); //记住一旦到了beforeDestroy或者destroyed钩子，即使你拿到数据想要更新它也不会走更新的路了(beforeUpdate,updated)
+        },
+        //destroyed钩子几乎不用
+        destroyed(){
+          console.log('destroyed');
         }
     });
+
 
 </script>
 </body>
