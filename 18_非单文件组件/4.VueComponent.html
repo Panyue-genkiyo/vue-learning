@@ -26,6 +26,8 @@
 
 						5.VueComponent的实例对象，以后简称vc（也可称之为：组件实例对象）。
 							Vue的实例对象，以后简称vm。 vm管理着一个又一个vc，vc可以再
+					    6.因为组件是可复用的 Vue 实例，所以它们与 new Vue 接收相同的选项，例如 data、computed、watch、methods 以及生命周期钩子等。仅有的例外是像 el 这样根实例特有的选项。
+					      所以vm与vc属性配置并不是一模一样，尽管vc底层复用了很多vm的逻辑
 -->
 <div id="root">
     <school></school>
