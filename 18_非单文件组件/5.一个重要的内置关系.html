@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一个重要的内置</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+			1.一个重要的内置关系：VueComponent.prototype.__proto__ === Vue.prototype
+			2.为什么要有这个关系：让组件实例对象（vc）可以访问到 Vue原型上的属性、方法。
+-->
+<div id="root">
+    <!--new VueComponent只有在你写了<school/>或者<school></school>才会执行-->
+    <school></school>
+</div>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+    //一个内置关系
+    Vue.prototype.x = 99;
+    //注意 VueComponent.prototype.__proto__ === Vue.prototype === vm.__proto__
+
+    const school = Vue.extend({
+        template: `
+          <div>
+             <h1>学校名称:{{ name }}</h1>
+             <h1>学校地址:{{ address }}</h1>
+             <button @click="showname">点我提示学校名</button>
+             <button @click="cx">点我输出x</button>
+          </div>
+        `,
+        data(){
+            return {
+                name: '武汉科技大学',  //vuecomponent的实例对象
+                address:'武汉'
+            }
+        },
+        methods:{
+            showname(){
+                console.log(this);
+                console.log(this.name);
+            },
+            cx(){
+                console.log(this); //this是VueComponent的实例对象
+                console.log(this.__proto__.__proto__ === Vue.prototype) //true 这里重要的内置关系哦！！！
+                console.log()
+                console.log(this.x);
+            }
+        }
+    });
+
+    new Vue({
+        el:"#root",
+        data:{
+            msg: 'hello'
+        },
+        components:{
+            school
+        }
+    });
+
+    //验证
+
+    // function Demo(){
+    //     this.a = 1;
+    //     this.b = 2;
+    // }
+    // const d = new Demo();
+    // // console.log(d.x);
+    // console.log(Demo.prototype); //显示原型属性
+    // console.log(d.__proto__);// 隐士原型属性 原型对象只有一个
+    // //操作原型对象追加x属性
+    // Demo.prototype.x = 99;
+    // console.log(d.__proto__ === Demo.prototype)
+</script>
+</body>
+</html>
