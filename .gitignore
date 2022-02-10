@@ -1,3 +1,24 @@
-js
 .idea
 .DS_Store
+
+vue-advance/node_modules
+vue-advance/dist
+
+
+# local env files
+vue-advance/.env.local
+vue-advance/.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
